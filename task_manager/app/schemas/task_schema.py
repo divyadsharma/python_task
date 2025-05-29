@@ -1,8 +1,8 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from uuid import UUID
 from datetime import datetime
-
+from typing import Optional
 
 class TaskStatus(str, Enum):
     pending = "pending"
@@ -10,8 +10,8 @@ class TaskStatus(str, Enum):
     completed = "completed"
 
 class TaskBase(BaseModel):
-    title: str
-    description: str | None = None
+    title: str = Field(..., min_length=3, max_length=100)
+    description: Optional[str] = Field(None, max_length=250)
     status: TaskStatus | None = TaskStatus.pending
 
 
