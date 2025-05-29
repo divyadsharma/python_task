@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
 from ..models.task import Task
-from ..schemas.task_schema import TaskCreate, TaskUpdate
+from ..schemas.task_schema import TaskCreate, TaskUpdate, TaskStatus
 def create_task(db: Session, task: TaskCreate):
     db_task = Task(**task.dict())
     db.add(db_task)
@@ -12,8 +12,11 @@ def create_task(db: Session, task: TaskCreate):
 def get_task(db: Session, task_id: UUID):
     return db.query(Task).filter(Task.id == task_id).first()
 
-def get_tasks(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(Task).offset(skip).limit(limit).all()
+def get_tasks(db: Session, skip: int = 0, limit: int = 100, status: TaskStatus = None):
+    query = db.query(Task)
+    if status:
+        query = query.filter(Task.status == status)
+    return query.offset(skip).limit(limit).all()
 
 def update_task(db: Session, task_id: UUID, task: TaskUpdate):
     db_task = db.query(Task).filter(Task.id == task_id).first()
