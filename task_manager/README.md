@@ -46,9 +46,26 @@ task_manager/
 ```bash
 git clone https://github.com/your-username/fastapi-task-manager.git
 cd fastapi-task-manager
+```
+
+### 2. Setup DATABASE_URL on local
 
 ```bash
 DATABASE_URL=postgresql://postgres:password@db:5432/tasks
 
+```
+
+### 3. Run docker
+
 ```bash
 docker-compose up --build
+```
+
+### 4. Run Swagger doc to check tasks
+
+```bash
+Start with swagger doc here
+http://localhost:8000/docs#/
+http://localhost:8000/redoc
+```
+
